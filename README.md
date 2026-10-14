@@ -35,7 +35,7 @@ A self-hosted app: Gemini writes a Bangla post, PixGen Pilot renders a branded 1
 | | Where to get it | Cost |
 | --- | --- | --- |
 | A computer or server that runs **Docker** (easiest), or **Node.js 20+** and **MySQL 8** | [docker.com/get-started](https://www.docker.com/get-started/) | Free |
-| A **Gemini API key** | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) | Pay-as-you-go (the Google project needs billing or credits) |
+| A **Gemini API key** | [aistudio.google.com/apikey](https://aistudio.google.com/apikey) | Free Trial Available |
 | A **Facebook App** (for "Continue with Facebook") | [developers.facebook.com/apps](https://developers.facebook.com/apps). See [Create your Facebook App](#create-your-facebook-app) | Free |
 | Admin access to the **Facebook Page(s)** you want to post to | | |
 | *Optional:* a **Pexels API key** for free stock photos | [pexels.com/api](https://www.pexels.com/api/) | Free |
