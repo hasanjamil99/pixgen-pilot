@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" fill="none">
+  <defs>
+    <linearGradient id="pgp-g" x1="8" y1="40" x2="40" y2="8" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00A3FF"/><stop offset="1" stop-color="#872AFF"/>
+    </linearGradient>
+    <linearGradient id="pgp-w" x1="7" y1="41" x2="25" y2="23" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7CCBFF"/><stop offset="1" stop-color="#FFFFFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="48" height="48" rx="12" fill="#0B0F19"/>
+  <path d="M27.06 11.76 A7.5 7.5 0 0 1 36.24 20.94" stroke="url(#pgp-g)" stroke-width="2.6" stroke-linecap="round" opacity=".75"/>
+  <path d="M25.89 7.41 A12 12 0 0 1 40.59 22.11" stroke="url(#pgp-g)" stroke-width="2.6" stroke-linecap="round" opacity=".4"/>
+  <rect x="25.6" y="15.6" width="6.8" height="6.8" rx="1.7" transform="rotate(45 29 19)" fill="url(#pgp-g)"/>
+  <path d="M24.6 23.4 L7.2 30.6 L14.9 33.1 L17.4 40.8 Z" fill="url(#pgp-w)"/>
+</svg>

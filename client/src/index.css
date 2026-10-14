@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Hind Siliguri", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-bn: "Hind Siliguri", "Noto Sans Bengali", "Inter", sans-serif;
+
+  /* PixGen Pilot brand */
+  --color-ink: #0b0f19;
+  --color-pilot: #00a3ff;
+  --color-pilot-600: #0089d6;
+  --color-violet: #872aff;
+  --color-fb: #1877f2;
+}
+
+@layer base {
+  html { -webkit-font-smoothing: antialiased; }
+  body { @apply bg-slate-50 font-sans text-slate-900; }
+  h1, h2, h3 { @apply font-display tracking-tight; }
+  ::selection { @apply bg-sky-200 text-slate-900; }
+  /* One shrinkable column by default so nowrap text never widens the page on phones. */
+  .grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@layer components {
+  .card { @apply rounded-2xl border border-slate-200/80 bg-white shadow-sm; }
+  .input {
+    @apply w-full rounded-xl border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 shadow-sm transition placeholder:text-slate-400
+      focus:border-sky-500 focus:outline-none focus:ring-4 focus:ring-sky-500/10 disabled:cursor-not-allowed disabled:bg-slate-100;
+  }
+  .label { @apply mb-1.5 block text-sm font-medium text-slate-700; }
+  .hint { @apply mt-1.5 block text-xs text-slate-500; }
+  .btn {
+    @apply inline-flex cursor-pointer items-center justify-center gap-2 whitespace-nowrap rounded-xl px-4 py-2.5 text-sm font-semibold transition
+      focus:outline-none focus-visible:ring-4 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-primary { @apply bg-gradient-to-r from-pilot to-violet text-white shadow-sm shadow-violet/20 hover:brightness-110 focus-visible:ring-sky-500/30; }
+  .btn-dark { @apply bg-ink text-white hover:bg-slate-800 focus-visible:ring-slate-400/40; }
+  .btn-fb { @apply bg-fb text-white shadow-sm hover:bg-[#1465d6] focus-visible:ring-blue-500/30; }
+  .btn-secondary { @apply border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 focus-visible:ring-slate-300/50; }
+  .btn-ghost { @apply text-slate-600 hover:bg-slate-100 focus-visible:ring-slate-300/50; }
+  .btn-danger { @apply bg-red-600 text-white hover:bg-red-700 focus-visible:ring-red-500/30; }
+  .btn-danger-soft { @apply bg-red-50 text-red-700 hover:bg-red-100 focus-visible:ring-red-500/20; }
+  .btn-sm { @apply rounded-lg px-3 py-1.5 text-xs; }
+  .table-wrap { @apply relative overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm; }
+  .table { @apply min-w-full divide-y divide-slate-200 text-sm; }
+  .table thead th { @apply whitespace-nowrap bg-slate-50 px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-slate-500; }
+  .table tbody td { @apply px-4 py-3 align-middle text-slate-700; }
+  .table tbody tr { @apply transition-colors hover:bg-sky-50/40; }
+  .caption { white-space: pre-wrap; word-break: break-word; }
+  .spinner { @apply inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent; }
+  .sidebar-bg {
+    background-color: #0b0f19;
+    background-image:
+      radial-gradient(at 0% 0%, rgba(0, 163, 255, 0.22) 0px, transparent 45%),
+      radial-gradient(at 100% 100%, rgba(135, 42, 255, 0.28) 0px, transparent 50%),
+      url("data:image/svg+xml,%3Csvg width='32' height='32' viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='14' y='14' width='4' height='4' rx='1' fill='%23ffffff' fill-opacity='0.05'/%3E%3C/svg%3E");
+  }
+}
+
+/* iOS Safari zooms on inputs under 16px; keep them at 16px on touch screens. */
+@media (pointer: coarse) {
+  input, select, textarea { font-size: 16px; }
+}

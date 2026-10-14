@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Poppins:wght@600;700;800&display=block" rel="stylesheet">
+  <style>
+    /* "My background image" design: the brand's own background, with text placed on top. */
+    :root {
+      --headline-color: {{HEADLINE_COLOR}};
+      --text-color: {{TEXT_COLOR}};
+      --accent: {{ACCENT_COLOR}};
+      --brand-color: {{BRAND_COLOR}};
+      --headline-size: {{HEADLINE_SIZE}}px;
+      --sub-size: {{SUB_SIZE}}px;
+      --logo-size: {{LOGO_SIZE}}px;
+      --box-top: {{BOX_TOP}}%;
+      --box-height: {{BOX_HEIGHT}}%;
+      --box-width: {{BOX_WIDTH}}%;
+      --overlay: {{OVERLAY}};
+      --erase: {{ERASE_COLOR}};
+      --points-size: {{POINTS_SIZE}}px;
+      --bn: 'Hind Siliguri', 'Noto Sans Bengali', sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 1080px; height: 1080px; overflow: hidden; background: #fff; -webkit-font-smoothing: antialiased; }
+
+    .banner {
+      position: relative;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: var(--bn);
+      background-color: #fff;
+      background-image: {{BACKGROUND}};
+      background-size: {{BG_SIZE}};
+      background-position: center;
+    }
+
+    /* "Use my sample as it is": soft panels in the background colour hide the sample's old text. */
+    .erase { position: absolute; z-index: 1; background: var(--erase); box-shadow: 0 0 34px 26px var(--erase); pointer-events: none; border-radius: 48px; }
+    .erase.hidden { display: none; }
+    .erase.center { left: 50%; transform: translateX(-50%); top: calc(var(--box-top) - 3%); height: calc(var(--box-height) + 6%); width: calc(var(--box-width) + 6%); }
+    .erase.top { left: 50%; transform: translateX(-50%); top: 52px; height: calc(var(--logo-size) + 70px); width: 620px; }
+    .erase.bottom { left: 50%; transform: translateX(-50%); bottom: 34px; height: 116px; width: 640px; }
+    .banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255, 255, 255, var(--overlay));
+      pointer-events: none;
+    }
+
+    /* Logo + brand name */
+    .brand {
+      position: absolute;
+      top: 64px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      z-index: 2;
+    }
+    .brand.pos-top-center { left: 50%; transform: translateX(-50%); }
+    .brand.pos-top-left { left: 90px; }
+    .brand.pos-top-right { right: 90px; }
+    .brand.pos-none { display: none; }
+    .brand img { height: var(--logo-size); width: auto; max-width: 520px; object-fit: contain; display: block; }
+    .brand .name {
+      font-family: 'Poppins', var(--bn);
+      font-weight: 700;
+      font-size: calc(var(--logo-size) * 0.62);
+      line-height: 1;
+      color: var(--brand-color);
+      letter-spacing: -0.5px;
+      white-space: nowrap;
+    }
+    .brand.hide-name .name { display: none; }
+
+    /* Text area */
+    .content {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: var(--box-top);
+      height: var(--box-height);
+      width: var(--box-width);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      z-index: 2;
+    }
+    .content.align-center { align-items: center; text-align: center; }
+    .content.align-left { align-items: flex-start; text-align: left; }
+
+    .badge {
+      display: inline-block;
+      margin-bottom: 26px;
+      padding: 8px 24px 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: #fff;
+      font-size: 28px;
+      font-weight: 600;
+      line-height: 1.25;
+    }
+    .badge.hidden { display: none; }
+
+    .headline {
+      font-size: var(--headline-size);
+      font-weight: 700;
+      line-height: 1.42;
+      color: var(--headline-color);
+      text-wrap: balance;
+      word-break: keep-all;
+    }
+    .headline .hl { color: var(--accent); }
+
+    .divider {
+      width: 62%;
+      max-width: 620px;
+      height: 4px;
+      border-radius: 4px;
+      background: var(--accent);
+      margin: 34px 0 30px;
+    }
+    .content.align-left .divider { width: 180px; }
+
+    .subheadline {
+      font-size: var(--sub-size);
+      font-weight: 500;
+      line-height: 1.55;
+      color: var(--text-color);
+      text-wrap: balance;
+    }
+
+    /* Footer: website / handle */
+    .footer {
+      position: absolute;
+      left: 50%;
+      bottom: 58px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      z-index: 2;
+      white-space: nowrap;
+    }
+    .footer.hidden { display: none; }
+    .footer .icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: grid;
+      place-items: center;
+    }
+    .footer .icon svg { width: 32px; height: 32px; stroke: #fff; fill: none; stroke-width: 1.6; }
+    .footer .sep { width: 2px; height: 50px; background: var(--text-color); opacity: 0.8; }
+    .footer .text {
+      font-family: 'Poppins', var(--bn);
+      font-weight: 700;
+      font-size: 34px;
+      color: var(--text-color);
+    }
+
+    /* ---------- Post types ---------- */
+    .quote-glyph { display: none; font-family: Georgia, 'Times New Roman', serif; font-size: 170px; line-height: 0.62; height: 78px; color: var(--accent); }
+    .type-quote .quote-glyph { display: block; }
+    .type-quote .headline { font-weight: 600; }
+    .type-quote .subheadline { font-weight: 600; }
+    .points { display: none; list-style: none; flex-direction: column; gap: 20px; margin-top: 34px; text-align: left; }
+    .type-tips .points { display: flex; }
+    .type-tips .divider, .type-tips .subheadline { display: none; }
+    .points li { display: flex; align-items: center; gap: 20px; font-family: var(--bn); font-size: var(--points-size); font-weight: 600; line-height: 1.38; color: var(--text-color); }
+    .points li .n { flex: none; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: #fff; font-size: 30px; font-weight: 700; }
+
+    /* Stock photo background: darkened for readable white text. */
+    .banner.photo { --headline-color: #ffffff; --text-color: #f3f4f6; --brand-color: #ffffff; }
+    .banner.photo::before { background: linear-gradient(180deg, rgba(0,0,0,0.42) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.72) 100%); }
+    .banner.photo .headline, .banner.photo .subheadline, .banner.photo .points li, .banner.photo .footer .text, .banner.photo .brand .name { text-shadow: 0 4px 24px rgba(0,0,0,0.45); }
+    .banner.photo .footer .sep { background: #fff; }
+    .banner.photo .erase { display: none; }
+  </style>
+</head>
+<body>
+  <div class="banner {{TYPE_CLASS}} {{PHOTO_CLASS}}" id="banner">
+    <div class="erase center {{ERASE_CLASS}}"></div>
+    <div class="erase top {{ERASE_CLASS}}"></div>
+    <div class="erase bottom {{ERASE_CLASS}}"></div>
+    <div class="brand pos-{{LOGO_POSITION}} {{BRAND_NAME_CLASS}}">{{LOGO_IMG}}<span class="name">{{BRAND_NAME}}</span></div>
+
+    <main class="content align-{{ALIGN}}" id="center">
+      <span class="badge {{BADGE_CLASS}}">{{BADGE}}</span>
+      <span class="quote-glyph">“</span>
+      <h1 class="headline" id="headline">{{HEADLINE}}</h1>
+      <ol class="points">{{POINTS_HTML}}</ol>
+      <div class="divider"></div>
+      <p class="subheadline" id="subheadline">{{SUBHEADLINE}}</p>
+    </main>
+
+    <footer class="footer {{FOOTER_CLASS}}">
+      <span class="icon"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/></svg></span>
+      <span class="sep"></span>
+      <span class="text">{{FOOTER_TEXT}}</span>
+    </footer>
+  </div>
+
+  <script>
+    // Shrinks the headline (then the subheadline) until the text area fits.
+    window.__fitText = function () {
+      var box = document.getElementById('center');
+      var h = document.getElementById('headline');
+      var s = document.getElementById('subheadline');
+      var g = 0;
+      while (box.scrollHeight > box.clientHeight + 1 && g < 80) {
+        var hs = parseFloat(getComputedStyle(h).fontSize);
+        var ss = parseFloat(getComputedStyle(s).fontSize);
+        if (hs > 46) h.style.fontSize = (hs - 3) + 'px';
+        else if (ss > 28) s.style.fontSize = (ss - 2) + 'px';
+        else break;
+        g++;
+      }
+      var pts = document.querySelectorAll('.points li');
+      var pg = 0;
+      while ((box.scrollHeight > box.clientHeight + 1) && pts.length && pg < 30) {
+        var ps = parseFloat(getComputedStyle(pts[0]).fontSize);
+        if (ps <= 26) break;
+        for (var i = 0; i < pts.length; i++) pts[i].style.fontSize = (ps - 2) + 'px';
+        pg++;
+      }
+      return {};
+    };
+  </script>
+</body>
+</html>

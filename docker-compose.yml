@@ -1,0 +1,68 @@
+# PixGen Pilot + its own MySQL 8.4 database.
+#
+#   cp .env.example .env      # then fill in the values marked "required"
+#   docker compose up -d --build
+#
+# The dashboard listens on port ${HOST_PORT:-3000}. For a public server put it behind a
+# reverse proxy with HTTPS (Caddy / nginx); Facebook login only accepts https:// redirect URLs
+# (http://localhost is allowed for testing).
+
+services:
+  mysql:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?MYSQL_ROOT_PASSWORD is required}
+      MYSQL_DATABASE: ${DB_NAME:-fb_autopilot}
+      MYSQL_USER: ${DB_USER:?DB_USER is required}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+    command: ["--character-set-server=utf8mb4", "--collation-server=utf8mb4_unicode_ci"]
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p\"$$MYSQL_ROOT_PASSWORD\" --silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "${HOST_PORT:-3000}:3000"
+    environment:
+      PORT: "3000"
+      ADMIN_EMAIL: ${ADMIN_EMAIL:?ADMIN_EMAIL is required}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?ADMIN_PASSWORD is required}
+      SESSION_SECRET: ${SESSION_SECRET:?SESSION_SECRET is required}
+      SECRETS_KEY: ${SECRETS_KEY:?SECRETS_KEY is required}
+      PUBLIC_URL: ${PUBLIC_URL:-}
+      DB_HOST: mysql
+      DB_PORT: "3306"
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME:-fb_autopilot}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-3.8-flash}
+      FB_APP_ID: ${FB_APP_ID:-}
+      FB_APP_SECRET: ${FB_APP_SECRET:-}
+      FB_GRAPH_VERSION: ${FB_GRAPH_VERSION:-v21.0}
+      PAGE_NICHE: ${PAGE_NICHE:-Technology, AI, Business & Digital Productivity}
+      BRAND_NAME: ${BRAND_NAME:-My Page Name}
+      BRAND_HANDLE: ${BRAND_HANDLE:-@mypagehandle}
+      BRAND_LOGO_URL: ${BRAND_LOGO_URL:-}
+      PRIMARY_COLOR: "${PRIMARY_COLOR:-#0f172a}"
+      ACCENT_COLOR: "${ACCENT_COLOR:-#38bdf8}"
+      CRON_SCHEDULE: ${CRON_SCHEDULE:-0 10 * * *}
+      TIMEZONE: ${TIMEZONE:-Asia/Dhaka}
+    volumes:
+      - banners:/app/public/banners
+    shm_size: "512mb"
+
+volumes:
+  mysql-data:
+  banners:

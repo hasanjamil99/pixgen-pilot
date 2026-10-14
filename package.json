@@ -1,0 +1,45 @@
+{
+  "name": "pixgen-pilot",
+  "version": "1.0.0",
+  "description": "Self-hosted Facebook Page autopilot: Gemini writes Bangla posts, Puppeteer renders branded banners, and they publish on schedule. React dashboard + MySQL.",
+  "type": "module",
+  "main": "src/index.js",
+  "private": true,
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "dev:web": "vite --config client/vite.config.js",
+    "build": "vite build --config client/vite.config.js",
+    "test-banner": "node src/index.js --test-banner",
+    "run-now": "node src/index.js --run-now",
+    "preview": "node src/index.js --preview"
+  },
+  "dependencies": {
+    "@google/genai": "^2.29.1",
+    "axios": "^1.20.0",
+    "dotenv": "^18.0.7",
+    "express": "^5.3.0",
+    "form-data": "^4.0.6",
+    "mysql2": "^3.24.6",
+    "node-cron": "^4.6.0",
+    "puppeteer": "^25.13.0"
+  },
+  "allowScripts": {
+    "puppeteer@25.13.0": true
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.1.2",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.56.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.3.4"
+  }
+}

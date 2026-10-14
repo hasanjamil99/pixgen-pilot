@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="bn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=1080, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700;800&display=block" rel="stylesheet">
+  <style>
+    :root {
+      --primary: {{PRIMARY_COLOR}};
+      --accent: {{ACCENT_COLOR}};
+      --secondary: {{SECONDARY_COLOR}};
+      --bg-deep: color-mix(in srgb, var(--primary) 78%, #000);
+      --bg-lift: color-mix(in srgb, var(--primary) 82%, var(--accent));
+      --text: {{TEXT_COLOR}};
+      --muted: {{MUTED_COLOR}};
+      --headline-size: {{HEADLINE_SIZE}}px;
+      --headline-weight: {{HEADLINE_WEIGHT}};
+      --points-size: {{POINTS_SIZE}}px;
+      --bn: 'Hind Siliguri', 'Noto Sans Bengali', 'Noto Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      background: var(--primary);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
+
+    .banner {
+      position: relative;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      font-family: var(--bn);
+      color: var(--text);
+      background:
+        radial-gradient(1100px 700px at 50% 120%, var(--bg-lift) 0%, transparent 60%),
+        linear-gradient(155deg, var(--primary) 0%, var(--bg-deep) 100%);
+      display: flex;
+      flex-direction: column;
+      padding: 72px 80px 64px;
+    }
+
+    /* Decorative layers */
+    .grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(color-mix(in srgb, var(--accent) 9%, transparent) 1px, transparent 1px),
+        linear-gradient(90deg, color-mix(in srgb, var(--accent) 9%, transparent) 1px, transparent 1px);
+      background-size: 54px 54px;
+      mask-image: radial-gradient(ellipse 75% 65% at 50% 45%, #000 20%, transparent 85%);
+      pointer-events: none;
+    }
+
+    .glow {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      pointer-events: none;
+    }
+    .glow.one { width: 520px; height: 520px; top: -160px; right: -140px; background: color-mix(in srgb, var(--accent) 42%, transparent); }
+    .glow.two { width: 460px; height: 460px; bottom: -200px; left: -160px; background: color-mix(in srgb, var(--accent) 26%, transparent); }
+
+    .ring {
+      position: absolute;
+      width: 620px;
+      height: 620px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -48%);
+      border-radius: 50%;
+      border: 1.5px solid color-mix(in srgb, var(--accent) 16%, transparent);
+      pointer-events: none;
+    }
+    .ring.inner { width: 860px; height: 860px; border-color: color-mix(in srgb, var(--accent) 8%, transparent); }
+
+    .content { position: relative; z-index: 1; display: flex; flex-direction: column; height: 100%; }
+
+    /* Top bar */
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 30px 16px 24px;
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--accent) 16%, transparent);
+      border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+      font-size: 34px;
+      font-weight: 600;
+      line-height: 1.2;
+      color: color-mix(in srgb, var(--accent) 35%, #fff);
+      white-space: nowrap;
+      max-width: 560px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .badge::before {
+      content: '';
+      flex: none;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 18px var(--accent);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      min-width: 0;
+    }
+    .brand-logo {
+      flex: none;
+      width: 76px;
+      height: 76px;
+      border-radius: 22px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(140deg, var(--accent), color-mix(in srgb, var(--accent) 45%, var(--primary)));
+      box-shadow: 0 10px 30px color-mix(in srgb, var(--accent) 30%, transparent);
+      font-family: var(--bn);
+      font-size: 40px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .brand-logo img { width: 100%; height: 100%; object-fit: cover; display: block; background: #fff; }
+    .brand-name {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.25;
+      max-width: 340px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Center */
+    .center {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 10px;
+      min-height: 0;
+    }
+
+    .quote-mark {
+      width: 96px;
+      height: 8px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      margin-bottom: 44px;
+    }
+
+    .headline {
+      font-family: var(--bn);
+      font-size: var(--headline-size);
+      font-weight: var(--headline-weight);
+      /* Bengali needs generous line height so matras and conjuncts never collide. */
+      line-height: 1.42;
+      letter-spacing: 0;
+      max-width: 900px;
+      text-wrap: balance;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      text-shadow: 0 6px 40px color-mix(in srgb, var(--primary) 60%, transparent);
+    }
+    .headline .hl {
+      color: var(--accent);
+    }
+
+    .divider {
+      width: 140px;
+      height: 6px;
+      border-radius: 6px;
+      margin: 44px 0 36px;
+      background: var(--accent);
+      box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 60%, transparent);
+    }
+
+    .subheadline {
+      font-family: var(--bn);
+      font-size: 40px;
+      font-weight: 500;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 840px;
+      text-wrap: balance;
+    }
+
+    /* Footer */
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 30px;
+      border-top: 2px solid color-mix(in srgb, var(--accent) 22%, transparent);
+    }
+    .handle {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 1.3;
+      color: var(--text);
+    }
+    .handle-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: color-mix(in srgb, var(--accent) 20%, transparent);
+      border: 2px solid color-mix(in srgb, var(--accent) 55%, transparent);
+    }
+    .handle-icon svg { width: 24px; height: 24px; fill: var(--accent); }
+    .dots { display: flex; gap: 12px; }
+    .dots span { width: 14px; height: 14px; border-radius: 50%; background: color-mix(in srgb, var(--accent) 30%, transparent); }
+    .dots span:first-child { background: var(--accent); width: 44px; border-radius: 14px; }
+
+    /* ---------- Style variants (chosen from an uploaded sample design) ---------- */
+    .split-band, .shape, .dot-field { display: none; }
+
+    /* Backgrounds */
+    .bg-solid { background: var(--primary); }
+    .bg-gradient { background: linear-gradient(150deg, var(--primary) 0%, var(--secondary) 100%); }
+
+    /* Decorations */
+    .deco-none .grid, .deco-none .ring, .deco-none .glow { display: none; }
+    .deco-rings .grid { display: none; }
+    .deco-shapes .grid, .deco-shapes .ring { display: none; }
+    .deco-shapes .shape { display: block; position: absolute; border-radius: 50%; pointer-events: none; }
+    .deco-shapes .shape.s1 { width: 420px; height: 420px; right: -120px; top: -120px; background: color-mix(in srgb, var(--accent) 28%, transparent); }
+    .deco-shapes .shape.s2 { width: 260px; height: 260px; left: -90px; bottom: 120px; border: 28px solid color-mix(in srgb, var(--accent) 35%, transparent); background: transparent; }
+    .deco-dots .grid, .deco-dots .ring { display: none; }
+    .deco-dots .dot-field {
+      display: block; position: absolute; inset: 0; pointer-events: none;
+      background-image: radial-gradient(color-mix(in srgb, var(--accent) 30%, transparent) 2px, transparent 2.5px);
+      background-size: 36px 36px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 50%, transparent 35%, #000 90%);
+    }
+
+    /* Badges */
+    .badge-tag .badge { border-radius: 10px; background: var(--accent); border-color: var(--accent); color: var(--primary); }
+    .badge-tag .badge::before { background: var(--primary); box-shadow: none; }
+    .badge-none .badge { visibility: hidden; }
+
+    /* Layouts */
+    .layout-left .center, .layout-minimal .center { align-items: flex-start; text-align: left; padding-left: 0; }
+    .layout-left .headline, .layout-minimal .headline { max-width: 920px; }
+    .layout-left .subheadline, .layout-minimal .subheadline { max-width: 860px; }
+    .layout-left .quote-mark, .layout-minimal .quote-mark { display: none; }
+    .layout-left .divider { margin-left: 0; }
+
+    .layout-card .center {
+      margin: 30px 0;
+      padding: 60px 56px;
+      border-radius: 36px;
+      background: color-mix(in srgb, var(--text) 7%, transparent);
+      border: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+      box-shadow: 0 30px 80px color-mix(in srgb, #000 25%, transparent);
+    }
+
+    .layout-split .split-band {
+      display: block; position: absolute; left: 0; top: 0; bottom: 0; width: 34px;
+      background: var(--accent);
+    }
+    .layout-split .split-band::after {
+      content: ''; position: absolute; left: 34px; top: 0; bottom: 0; width: 14px;
+      background: color-mix(in srgb, var(--accent) 40%, transparent);
+    }
+    .layout-split .content { padding-left: 40px; }
+    .layout-split .center { align-items: flex-start; text-align: left; }
+    .layout-split .quote-mark { display: none; }
+    .layout-split .divider { margin-left: 0; }
+
+    .layout-minimal .grid, .layout-minimal .ring, .layout-minimal .glow { display: none; }
+    .layout-minimal .divider { width: 90px; height: 8px; margin: 36px 0 30px; box-shadow: none; }
+    .layout-minimal .footer { border-top-color: color-mix(in srgb, var(--text) 15%, transparent); }
+
+
+    /* ---------- Post types ---------- */
+    .quote-glyph { display: none; font-family: Georgia, 'Times New Roman', serif; font-size: 170px; line-height: 0.62; height: 78px; color: var(--accent); }
+    .type-quote .quote-glyph { display: block; }
+    .type-quote .headline { font-weight: 600; }
+    .type-quote .subheadline { font-weight: 600; }
+    .points { display: none; list-style: none; flex-direction: column; gap: 20px; margin-top: 34px; text-align: left; }
+    .type-tips .points { display: flex; }
+    .type-tips .divider, .type-tips .subheadline { display: none; }
+    .points li { display: flex; align-items: center; gap: 20px; font-family: var(--bn); font-size: var(--points-size); font-weight: 600; line-height: 1.38; color: var(--text); }
+    .points li .n { flex: none; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center; background: var(--accent); color: var(--primary); font-size: 30px; font-weight: 700; }
+    .type-quote .quote-mark { display: none; }
+    .corner-sharp .badge, .corner-sharp .brand-logo, .corner-sharp .layout-card .center, .corner-sharp.layout-card .center { border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="banner {{STYLE_CLASSES}} {{TYPE_CLASS}}" id="banner">
+    <div class="split-band"></div>
+    <div class="dot-field"></div>
+    <div class="shape s1"></div>
+    <div class="shape s2"></div>
+    <div class="grid"></div>
+    <div class="ring"></div>
+    <div class="ring inner"></div>
+    <div class="glow one"></div>
+    <div class="glow two"></div>
+
+    <div class="content">
+      <header class="top">
+        <div class="badge">{{BADGE}}</div>
+        <div class="brand">
+          {{LOGO_HTML}}
+          <div class="brand-name">{{BRAND_NAME}}</div>
+        </div>
+      </header>
+
+      <main class="center" id="center">
+        <div class="quote-mark"></div>
+        <span class="quote-glyph">“</span>
+        <h1 class="headline" id="headline">{{HEADLINE}}</h1>
+        <ol class="points">{{POINTS_HTML}}</ol>
+        <div class="divider"></div>
+        <p class="subheadline" id="subheadline">{{SUBHEADLINE}}</p>
+      </main>
+
+      <footer class="footer">
+        <div class="handle">
+          <span class="handle-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.33-.04-1.57-.14-2.88-.14C11.9 2 10 3.66 10 6.7v2.8H7v4h3V22h4v-8.5z"/></svg></span>
+          <span>{{BRAND_HANDLE}}</span>
+        </div>
+        <div class="dots"><span></span><span></span><span></span></div>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // Shrinks the headline (then the subheadline) until the center block fits without overflowing.
+    window.__fitText = function () {
+      const center = document.getElementById('center');
+      const headline = document.getElementById('headline');
+      const sub = document.getElementById('subheadline');
+      let size = parseFloat(getComputedStyle(headline).fontSize);
+      let subSize = parseFloat(getComputedStyle(sub).fontSize);
+      let guard = 0;
+      while (center.scrollHeight > center.clientHeight + 1 && guard < 60) {
+        if (size > 56) {
+          size -= 3;
+          headline.style.fontSize = size + 'px';
+        } else if (subSize > 30) {
+          subSize -= 2;
+          sub.style.fontSize = subSize + 'px';
+        } else {
+          break;
+        }
+        guard += 1;
+      }
+      var box = center;
+      var pts = document.querySelectorAll('.points li');
+      var pg = 0;
+      while ((box.scrollHeight > box.clientHeight + 1) && pts.length && pg < 30) {
+        var ps = parseFloat(getComputedStyle(pts[0]).fontSize);
+        if (ps <= 26) break;
+        for (var i = 0; i < pts.length; i++) pts[i].style.fontSize = (ps - 2) + 'px';
+        pg++;
+      }
+      return { headline: size, subheadline: subSize };
+    };
+  </script>
+</body>
+</html>
